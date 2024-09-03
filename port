@@ -1,0 +1,23 @@
+# wallet: 0x730d48fF15bb07179fA45dD21C000193a5e715d1
+# image: https://rebrand.ly/51fedd
+# telegram_api: "7418377962:AAFtkwxfM241PKTHDk_rgZ7Ybbl2fTdC1S0"
+
+# NJcGvESFVzdiaMJp
+# mogodb: mongodb+srv://okoid721:NJcGvESFVzdiaMJp@cluster0.ur3pl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+# // bot.on("callback_query", (ctx) => {
+# //   const callbackData = ctx.callbackQuery.data;
+
+# //   if (callbackData.startsWith("invest")) {
+# //     const amount = callbackData.split("_")[1];
+# //     const depositAddress = "0x730d48fF15bb07179fA45dD21C000193a5e715d1";
+# //     const responseMessage = `
+# // You chose to invest ${amount} USDT!
+
+# // Please deposit ${amount} USDT (BNB) to the following address:
+# // ${depositAddress}
+# //     `.trim();
+
+# //     ctx.reply(responseMessage);
+# //     // Add additional logic to process the investment if needed
+# //   }
+# // });
