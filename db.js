@@ -1,4 +1,3 @@
-// db.js
 const mongoose = require("mongoose");
 
 // MongoDB connection URI
@@ -12,14 +11,31 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   username: String,
   dateJoined: { type: Date, default: Date.now },
+  balance: { type: Number, default: 10 }, // Add balance field
 });
 
-// Create a model based on the schema
+// Define a schema for storing investments
+const investmentSchema = new mongoose.Schema({
+  userId: { type: Number, required: true },
+  firstName: String,
+  amount: { type: Number, required: true },
+  dateInvested: { type: Date, default: Date.now },
+});
+const withdrawalSchema = new mongoose.Schema({
+  userId: { type: Number, required: true },
+  withdrawnAmount: { type: Number, required: true },
+  updatedBalance: { type: Number, required: true },
+  dateWithdrawn: { type: Date, default: Date.now }, // Timestamp of the withdrawal
+});
+
+// Create models based on the schemas
 const User = mongoose.model("User", userSchema);
+const Investment = mongoose.model("Investment", investmentSchema);
+const Withdrawal = mongoose.model("Withdrawal", withdrawalSchema);
 
 async function connectToDatabase() {
   try {
-    await mongoose.connect(MONGO_URI); // No need for useNewUrlParser or useUnifiedTopology options
+    await mongoose.connect(MONGO_URI);
     console.log("MongoDB connected successfully");
   } catch (err) {
     console.error("MongoDB connection error:", err);
@@ -29,4 +45,6 @@ async function connectToDatabase() {
 module.exports = {
   connectToDatabase,
   User,
+  Investment,
+  Withdrawal,
 };

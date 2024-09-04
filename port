@@ -21,3 +21,4 @@
 # //     // Add additional logic to process the investment if needed
 # //   }
 # // });
+ctx.reply(`Deposit of ${amount} USDT successful. Thank you for investing!`);
