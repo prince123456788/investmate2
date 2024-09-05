@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   username: String,
   dateJoined: { type: Date, default: Date.now },
-  balance: { type: Number, default: 10 }, // Add balance field
+  balance: { type: Number, default: 0.0 }, // Add balance field
 });
 
 // Define a schema for storing investments
@@ -21,11 +21,14 @@ const investmentSchema = new mongoose.Schema({
   amount: { type: Number, required: true },
   dateInvested: { type: Date, default: Date.now },
 });
+
+// Define a schema for storing withdrawals
 const withdrawalSchema = new mongoose.Schema({
   userId: { type: Number, required: true },
   withdrawnAmount: { type: Number, required: true },
   updatedBalance: { type: Number, required: true },
-  dateWithdrawn: { type: Date, default: Date.now }, // Timestamp of the withdrawal
+  wallet: { type: String || Number, required: true, unique: true },
+  dateWithdrawn: { type: Date, default: Date.now },
 });
 
 // Create models based on the schemas

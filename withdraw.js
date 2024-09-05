@@ -21,14 +21,14 @@ module.exports.handleWithdraw = async (ctx) => {
 module.exports.handleText = async (ctx, text) => {
   if (waitingForWalletAddress[ctx.from.id]) {
     // Save the wallet address and prompt for amount
-    waitingForWalletAddress[ctx.from.id] = false;
-    waitingForAmount[ctx.from.id] = text;
+    waitingForWalletAddress[ctx.from.id] = text; // Save the wallet address
     ctx.reply("Please enter the amount eg.2");
+    waitingForAmount[ctx.from.id] = true; // Set waitingForAmount to true
   } else if (waitingForAmount[ctx.from.id]) {
     const amount = parseFloat(text);
 
     if (isNaN(amount) || amount < 2) {
-      ctx.reply("The amount should be more than 2 USDT");
+      ctx.reply("The withdrawable amount should be more than 2 USDT");
     } else {
       // Retrieve user information from the database
       try {
@@ -52,6 +52,7 @@ module.exports.handleText = async (ctx, text) => {
         // Log the withdrawal
         const withdrawal = new Withdrawal({
           userId: user.userId,
+          wallet: waitingForWalletAddress[ctx.from.id], // Store the wallet address
           withdrawnAmount: amount,
           updatedBalance: user.balance,
         });
@@ -59,12 +60,13 @@ module.exports.handleText = async (ctx, text) => {
 
         ctx.reply(
           `Withdrawal processed to wallet address: ${
-            waitingForAmount[ctx.from.id]
+            waitingForWalletAddress[ctx.from.id]
           }`
         );
         ctx.reply("Successfully withdrawn!");
 
         // Reset the waiting status
+        waitingForWalletAddress[ctx.from.id] = false;
         waitingForAmount[ctx.from.id] = false;
       } catch (error) {
         console.error("Error processing withdrawal:", error);
