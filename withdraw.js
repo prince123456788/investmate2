@@ -19,19 +19,19 @@ module.exports.handleWithdraw = async (ctx) => {
 };
 
 module.exports.handleText = async (ctx, text) => {
-  if (waitingForWalletAddress[ctx.from.id]) {
+  if (waitingForWalletAddress[ctx.from.id] === true) {
     // Save the wallet address and prompt for amount
     waitingForWalletAddress[ctx.from.id] = text; // Save the wallet address
-    ctx.reply("Please enter the amount eg.2");
     waitingForAmount[ctx.from.id] = true; // Set waitingForAmount to true
-  } else if (waitingForAmount[ctx.from.id]) {
+    ctx.reply("Please enter the amount (e.g., 2 USDT).");
+  } else if (waitingForAmount[ctx.from.id] === true) {
     const amount = parseFloat(text);
 
     if (isNaN(amount) || amount < 2) {
-      ctx.reply("The withdrawable amount should be more than 2 USDT");
+      ctx.reply("The withdrawable amount should be more than 2 USDT.");
     } else {
-      // Retrieve user information from the database
       try {
+        // Retrieve user information from the database
         const user = await User.findOne({ userId: ctx.from.id });
 
         if (!user) {
@@ -39,7 +39,7 @@ module.exports.handleText = async (ctx, text) => {
           return;
         }
 
-        // Check if user has enough balance
+        // Check if the user has enough balance
         if (user.balance < amount) {
           ctx.reply("Insufficient balance.");
           return;
@@ -58,6 +58,7 @@ module.exports.handleText = async (ctx, text) => {
         });
         await withdrawal.save();
 
+        // Reply with confirmation messages
         ctx.reply(
           `Withdrawal processed to wallet address: ${
             waitingForWalletAddress[ctx.from.id]
@@ -65,13 +66,18 @@ module.exports.handleText = async (ctx, text) => {
         );
         ctx.reply("Successfully withdrawn!");
 
-        // Reset the waiting status
-        waitingForWalletAddress[ctx.from.id] = false;
-        waitingForAmount[ctx.from.id] = false;
+        // Reset the waiting flags after the withdrawal is completed
+        delete waitingForWalletAddress[ctx.from.id];
+        delete waitingForAmount[ctx.from.id];
       } catch (error) {
         console.error("Error processing withdrawal:", error);
         ctx.reply("An error occurred while processing your withdrawal.");
       }
     }
+  } else {
+    // Handle unexpected input
+    ctx.reply(
+      "Please start the withdrawal process by submitting your wallet address."
+    );
   }
 };
