@@ -76,8 +76,6 @@ module.exports.handleText = async (ctx, text) => {
     }
   } else {
     // Handle unexpected input
-    ctx.reply(
-      "Please start the withdrawal process by submitting your wallet address."
-    );
+    ctx.reply("");
   }
 };

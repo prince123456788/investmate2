@@ -78,7 +78,7 @@ module.exports = {
           { text: "Withdraw", callback_data: "withdraw" },
         ],
       ];
-      ctx.reply("Choose an option:", {
+      ctx.reply("Transfer successfull:", {
         reply_markup: {
           keyboard: keyboard,
           one_time_keyboard: true,

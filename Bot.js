@@ -25,7 +25,7 @@ bot.start(async (ctx) => {
 
     ctx.replyWithPhoto("https://rebrand.ly/51fedd", {
       caption:
-        "Hello, Coder! This is InvestMate ✨ - your reliable app for keeping and using your cryptocurrencies, all at your fingertips to make extra income for yourself! 📱\n" +
+        `Hello, ${first_name} This is InvestMate ✨ - your reliable app for keeping and using your cryptocurrencies, all at your fingertips to make extra income for yourself! 📱\n` +
         "\n" +
         "We're excited to introduce our new Telegram mini-app! Start earning now, and soon you'll find out all the great USDT you can earn from them. ⚡\n" +
         "\n" +
