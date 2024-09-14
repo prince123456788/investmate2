@@ -12,8 +12,8 @@ async function updateBalances() {
       const user = await User.findOne({ userId: investment.userId });
 
       if (user) {
-        // Calculate per minute interest (0.8% of the amount)
-        const interest = investment.amount * 0.008; // 0.8% per minute
+        // Calculate per hour interest (0.8% of the amount)
+        const interest = investment.amount * 0.008; // 0.08% per hour
 
         // Update the user's balance
         user.balance += interest;
@@ -22,14 +22,14 @@ async function updateBalances() {
         console.log(
           `User ${
             user.userId
-          } balance updated. New balance: ${user.balance.toFixed(2)} USDT`
+          } balance updated. New balance: ${user.balance.toFixed(5)} USDT`
         );
 
         // Send a message to the user notifying them of the balance update
         bot.telegram.sendMessage(
           user.userId,
-          `You have received 0.8% interest on your investment. Your new balance is ${user.balance.toFixed(
-            2
+          `You have received 0.08% interest on your investment. Your new balance is ${user.balance.toFixed(
+            5
           )} USDT.`
         );
       }
@@ -41,8 +41,8 @@ async function updateBalances() {
   }
 }
 
-// Schedule the update function to run every minute
-schedule.scheduleJob("*/1 * * * *", updateBalances); // Runs every minute
+// Schedule the update function to run every hour
+schedule.scheduleJob("0 * * * *", updateBalances); // Runs every hour at the start of the hour
 
 // Handle balance request
 module.exports.handleBalance = async (ctx) => {
@@ -50,7 +50,7 @@ module.exports.handleBalance = async (ctx) => {
     const user = await User.findOne({ userId: ctx.from.id });
 
     if (user) {
-      ctx.reply(`Your balance is ${user.balance.toFixed(2)} USDT`);
+      ctx.reply(`Your balance is ${user.balance.toFixed(5)} USDT`);
     } else {
       ctx.reply("User not found.");
     }

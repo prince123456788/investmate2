@@ -10,7 +10,7 @@ connectToDatabase();
 
 const BOT_TOKEN = "7418377962:AAFtkwxfM241PKTHDk_rgZ7Ybbl2fTdC1S0";
 const bot = new Telegraf(BOT_TOKEN);
-
+module.exports = bot;
 // Handle /start command
 bot.start(async (ctx) => {
   const { id, first_name, last_name, username } = ctx.from;
