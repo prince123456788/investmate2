@@ -10,6 +10,7 @@ connectToDatabase();
 
 const BOT_TOKEN = "7418377962:AAFtkwxfM241PKTHDk_rgZ7Ybbl2fTdC1S0";
 const bot = new Telegraf(BOT_TOKEN);
+
 module.exports = bot;
 // Handle /start command
 bot.start(async (ctx) => {
@@ -31,7 +32,10 @@ bot.start(async (ctx) => {
         "\n" +
         "Have friends? Invite them! The more, the merrier! 👯\n" +
         "\n" +
-        "Remember: InvestMate is a place where you can invest your cryptocurrency and earn 20% every day, offering boundless investment opportunities!.🚀",
+        "Remember: InvestMate is a place where you can invest your cryptocurrency and earn 20% every day, offering boundless investment opportunities!.🚀\n" +
+        "\n" +
+        "💬 *Join our Telegram group for updates and discussions:* [Join the Group](https://t.me/+5_Xo72pZBJYxMTFk)",
+      parse_mode: "Markdown",
       reply_markup: {
         keyboard: [
           [
