@@ -1,5 +1,6 @@
 const { User, Investment } = require("./db");
 const schedule = require("node-schedule");
+const bot = require("./bot"); // Assuming you have a bot instance for sending messages
 
 // Function to update user balances based on investments
 async function updateBalances() {
@@ -11,16 +12,26 @@ async function updateBalances() {
       const user = await User.findOne({ userId: investment.userId });
 
       if (user) {
-        // Calculate interest (20% of the amount)
-        const interest = investment.amount * 0.2;
+        // Calculate per minute interest (0.8% of the amount)
+        const interest = investment.amount * 0.008; // 0.8% per minute
 
         // Update the user's balance
         user.balance += interest;
         await user.save();
 
-        // Optionally, reset investment or adjust as needed
-        // investment.amount -= interest;
-        // await investment.save();
+        console.log(
+          `User ${
+            user.userId
+          } balance updated. New balance: ${user.balance.toFixed(2)} USDT`
+        );
+
+        // Send a message to the user notifying them of the balance update
+        bot.telegram.sendMessage(
+          user.userId,
+          `You have received 0.8% interest on your investment. Your new balance is ${user.balance.toFixed(
+            2
+          )} USDT.`
+        );
       }
     }
 
@@ -30,8 +41,8 @@ async function updateBalances() {
   }
 }
 
-// Schedule the update function to run every 24 hours
-schedule.scheduleJob("0 0 * * *", updateBalances); // Runs at midnight every day
+// Schedule the update function to run every minute
+schedule.scheduleJob("*/1 * * * *", updateBalances); // Runs every minute
 
 // Handle balance request
 module.exports.handleBalance = async (ctx) => {

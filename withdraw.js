@@ -74,8 +74,5 @@ module.exports.handleText = async (ctx, text) => {
         ctx.reply("An error occurred while processing your withdrawal.");
       }
     }
-  } else {
-    // Handle unexpected input
-    ctx.reply("");
   }
 };
