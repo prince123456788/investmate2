@@ -12,7 +12,7 @@ async function updateBalances() {
       const user = await User.findOne({ userId: investment.userId });
 
       if (user) {
-        // Calculate per hour interest (0.8% of the amount)
+        // Calculate per hour interest (0.08% of the amount)
         const interest = investment.amount * 0.008; // 0.08% per hour
 
         // Update the user's balance

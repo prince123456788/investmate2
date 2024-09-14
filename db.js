@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   username: String,
   dateJoined: { type: Date, default: Date.now },
-  balance: { type: Number, default: 0.0 }, // Add balance field
+  balance: { type: Number, default: 0 }, // Add balance field
 });
 
 // Define a schema for storing investments
@@ -19,6 +19,7 @@ const investmentSchema = new mongoose.Schema({
   userId: { type: Number, required: true },
   firstName: String,
   amount: { type: Number, required: true },
+  processed: { type: Boolean, default: false },
   dateInvested: { type: Date, default: Date.now },
 });
 
