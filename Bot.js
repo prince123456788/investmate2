@@ -8,7 +8,7 @@ const balanceHandler = require("./balance");
 // Initialize and connect to the database
 connectToDatabase();
 
-const BOT_TOKEN = "7418377962:AAFtkwxfM241PKTHDk_rgZ7Ybbl2fTdC1S0";
+const BOT_TOKEN = "7477304211:AAGr4imyJvPXqOT8UVCEZJJyIZbDw5zc1AY";
 const bot = new Telegraf(BOT_TOKEN);
 
 module.exports = bot;
